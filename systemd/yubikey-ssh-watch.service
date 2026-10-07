@@ -1,0 +1,10 @@
+[Unit]
+Description=Close SSH master connections when the YubiKey is removed
+
+[Service]
+ExecStart=%h/.local/bin/yubikey-ssh-watch
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target

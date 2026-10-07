@@ -1,0 +1,5 @@
+Host github.com
+  IdentityFile @KEY@
+  ControlMaster auto
+  ControlPath ~/.ssh/cm-%r@%h:%p
+  ControlPersist 12h

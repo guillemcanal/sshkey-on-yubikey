@@ -1,0 +1,17 @@
+#!/bin/sh
+# Watch for the removal of a YubiKey (vendor 1050) and then close the
+# SSH master connections. Requires no root privileges.
+close_masters=$(dirname "$(readlink -f "$0")")/ssh-close-masters
+action= product=
+udevadm monitor --udev --property --subsystem-match=usb/usb_device |
+while read -r line; do
+  case "$line" in
+    ACTION=*)  action=${line#ACTION=} ;;
+    PRODUCT=*) product=${line#PRODUCT=} ;;
+    "")
+      case "$action:$product" in
+        remove:1050/*) "$close_masters" ;;
+      esac
+      action= product= ;;
+  esac
+done
